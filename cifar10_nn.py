@@ -9,7 +9,7 @@ import numpy as np
 np.random.seed(1337)  # for reproducibility
 
 from keras.datasets import cifar10
-from keras.preprocessing.image import ImageDataGenerator
+##from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.optimizers import RMSprop
@@ -40,14 +40,14 @@ Y_train = np_utils.to_categorical(y_train, nb_classes)
 Y_test = np_utils.to_categorical(y_test, nb_classes)
 
 model = Sequential()
-model.add(Dense(100, input_shape=(32,32,3)))
+model.add(Dense(10, input_shape=(32,32,3,)))
 model.add(Flatten())
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
-model.add(Dense(100))
+model.add(Dense(10))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
-model.add(Dense(100))
+model.add(Dense(10))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
 model.add(Dense(10))
