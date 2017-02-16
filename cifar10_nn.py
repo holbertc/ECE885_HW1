@@ -18,7 +18,7 @@ from keras.utils import np_utils
 
 batch_size = 32
 nb_classes = 10
-nb_epoch = 200
+nb_epoch = 15
 
 img_rows, img_cols = 32, 32
 img_channels = 3
@@ -40,14 +40,14 @@ Y_train = np_utils.to_categorical(y_train, nb_classes)
 Y_test = np_utils.to_categorical(y_test, nb_classes)
 
 model = Sequential()
-model.add(Dense(288, input_shape=(32,32,3,)))
+model.add(Dense(100, input_shape=(32,32,3,)))
 model.add(Flatten())
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
-model.add(Dense(10))
+model.add(Dense(100))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
-model.add(Dense(10))
+model.add(Dense(100))
 model.add(Activation('relu'))
 model.add(Dropout(0.2))
 model.add(Dense(10))
