@@ -82,7 +82,7 @@ model.add(Dense(10))
 model.add(Activation('softmax'))
 model.summary()
 
-sgd = SGD(lr=0.0)
+sgd = SGD(lr=0.0, momentum=0.8)
 model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
