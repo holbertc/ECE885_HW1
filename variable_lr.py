@@ -39,8 +39,8 @@ class LossHistory(K.Callback):
 
 
 def step_decay(losses):
-    if float(2*np.sqrt(np.array(temp_history.losses[-1])))<1.1:
-        lrate=0.01*1/(1+0.1*len(temp_history.losses))
+    if float((np.array(temp_history.losses[-1])))<3.0:
+        lrate=0.0120*np.exp(np.array(temp_history.losses[-1]))
         return lrate
     else:
         lrate=0.01
