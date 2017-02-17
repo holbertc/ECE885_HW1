@@ -50,7 +50,7 @@ def step_decay(losses):
 
 batch_size = 128
 nb_classes = 10
-nb_epoch = 40
+nb_epoch = 10
 
 # the data, shuffled and split between train and test sets
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
@@ -82,7 +82,7 @@ model.add(Dense(10))
 model.add(Activation('softmax'))
 model.summary()
 
-sgd = SGD(lr=0.0, momentum=0.8)
+sgd = SGD(lr=0.0)
 model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
