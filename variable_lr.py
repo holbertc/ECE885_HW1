@@ -6,6 +6,7 @@ Gets to 98.40% test accuracy after 20 epochs
 
 from __future__ import print_function
 import numpy as np
+import math
 np.random.seed(1337)  # for reproducibility
 
 from keras.datasets import mnist
@@ -13,7 +14,17 @@ from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation
 from keras.optimizers import SGD
 from keras.utils import np_utils
+from keras.callbacks import LearningRateScheduler
 
+history.history=[2.5]
+
+# learning rate schedule
+def step_decay(epoch):
+	initial_lrate = 0.0082
+	epochs_drop = 1.0
+	lrate = initial_lrate * np.exp(history.history[-1])
+	return lrate
+        
 
 batch_size = 128
 nb_classes = 10
@@ -47,17 +58,29 @@ model.add(Activation('relu'))
 model.add(Dropout(0.2))
 model.add(Dense(10))
 model.add(Activation('softmax'))
-
 model.summary()
 
-sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = SGD(lr=0.0)
 model.compile(loss='categorical_crossentropy',
               optimizer=sgd,
               metrics=['accuracy'])
+#def step_decay(losses):
+#    if float(history.losses[-1])<4:
+#        lrate=0.1*np.exp(history.losses)
+#        momentum=0.8
+#        decay_rate=2e-6
+#        return lrate
+#    else:
+#        lrate=0.1
+#        return lrate
+
+
+lrate = LearningRateScheduler(step_decay)
+callbacks_list = [lrate]
 
 history = model.fit(X_train, Y_train,
                     batch_size=batch_size, nb_epoch=nb_epoch,
-                    verbose=1, validation_data=(X_test, Y_test))
+                    verbose=1, validation_data=(X_test, Y_test), callbacks=callbacks_list)
 score = model.evaluate(X_test, Y_test, verbose=0)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
