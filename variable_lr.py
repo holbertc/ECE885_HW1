@@ -16,6 +16,7 @@ from keras.optimizers import SGD
 from keras.utils import np_utils
 from keras.callbacks import LearningRateScheduler
 
+history=[]
 history.history=[2.5]
 
 # learning rate schedule
