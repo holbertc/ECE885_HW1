@@ -6,7 +6,7 @@ Gets to 98.40% test accuracy after 20 epochs
 
 from __future__ import print_function
 import numpy as np
-import math
+import keras.callbacks as K
 np.random.seed(1337)  # for reproducibility
 
 from keras.datasets import mnist
@@ -16,15 +16,36 @@ from keras.optimizers import SGD
 from keras.utils import np_utils
 from keras.callbacks import LearningRateScheduler
 
-history=[]
-history.history=[2.5]
+#history=[]
+
 
 # learning rate schedule
-def step_decay(epoch):
-	initial_lrate = 0.0082
-	epochs_drop = 1.0
-	lrate = initial_lrate * np.exp(history.history[-1])
-	return lrate
+#def step_decay(epoch):
+#	initial_lrate = 0.0082
+#	epochs_drop = 1.0
+#	lrate = initial_lrate * np.exp(history.losses[-1])
+#	return lrate
+sd=[]
+class LossHistory(K.Callback):
+    def on_train_begin(self, logs={}):
+        self.losses = [1,1]
+
+    def on_epoch_end(self, batch, logs={}):
+        self.losses.append(logs.get('loss'))
+        sd.append(step_decay(len(self.losses)))
+        print('learning rate:', step_decay(len(self.losses)))
+        print('derivative of loss:', 2*np.sqrt((self.losses[-1])))
+
+
+
+def step_decay(losses):
+    if float(2*np.sqrt(np.array(temp_history.losses[-1])))<1.1:
+        lrate=0.01*1/(1+0.1*len(temp_history.losses))
+        return lrate
+    else:
+        lrate=0.01
+        return lrate
+
         
 
 batch_size = 128
@@ -75,9 +96,9 @@ model.compile(loss='categorical_crossentropy',
 #        lrate=0.1
 #        return lrate
 
-
+temp_history = LossHistory()
 lrate = LearningRateScheduler(step_decay)
-callbacks_list = [lrate]
+callbacks_list = [lrate, temp_history]
 
 history = model.fit(X_train, Y_train,
                     batch_size=batch_size, nb_epoch=nb_epoch,
