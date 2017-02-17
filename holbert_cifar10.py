@@ -16,7 +16,7 @@ from keras.utils import np_utils
 
 batch_size = 32
 nb_classes = 10
-nb_epoch = 3
+nb_epoch = 5
 
 img_rows, img_cols = 32, 32
 img_channels = 3
