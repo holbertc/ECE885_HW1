@@ -16,15 +16,6 @@ from keras.optimizers import SGD
 from keras.utils import np_utils
 from keras.callbacks import LearningRateScheduler
 
-#history=[]
-
-
-# learning rate schedule
-#def step_decay(epoch):
-#	initial_lrate = 0.0082
-#	epochs_drop = 1.0
-#	lrate = initial_lrate * np.exp(history.losses[-1])
-#	return lrate
 sd=[]
 class LossHistory(K.Callback):
     def on_train_begin(self, logs={}):
@@ -50,7 +41,7 @@ def step_decay(losses):
 
 batch_size = 128
 nb_classes = 10
-nb_epoch = 3
+nb_epoch = 200
 
 # the data, shuffled and split between train and test sets
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
